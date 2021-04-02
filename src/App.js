@@ -11,13 +11,13 @@ const App = () => {
   const [counter, setCounter] = useState(0);
   const [recipies, setRecipies] = useState([]); //state to store recipies.
   const [search, setSearch] = useState(''); //state to store the incomplete search term while it's being written before clicking on search button.
-  const [query, setQuery] = useState('paneer'); //state to store the final search term.
+  const [query, setQuery] = useState('salad'); //state to store the final search term.
     
   useEffect( () => {
     getRecepies();
   }, [query]);
 
-  const getSearch = e => {
+  const getSearch = e => { //This funtion is triggered because of onSubmit in the form at line 44. e here is an even (not event listener).
     e.preventDefault(); //To stop the automatic page refresh everytime we start typing into the search box.
     setQuery(search);
     setSearch('');
@@ -35,7 +35,7 @@ const App = () => {
     // })
   }
   
-  const updateSearch = e => {
+  const updateSearch = e => { //e is a variable to target an event that is triggered when onChange is triggered by input field in line 45.
     setSearch(e.target.value);
   }
 
@@ -45,14 +45,17 @@ const App = () => {
         <input className="search-bar" type="text" value={search} onChange={updateSearch}/>
         <button className="search-button" type="submit">Search</button>
       </form>
-      {recipies.map(x => ( //Here we have map function which takes another function to apply over all the elemets in recepies array.
-        <Recipe 
-        title={x.recipe.label} 
-        calories={x.recipe.calories} 
-        image={x.recipe.image} 
-        key={x.recipe.label} /> // For the inner function we are just defining the return and not the body hence () instead of {} after recipe => ()
-      ))}
-      <h1 onClick={() => setCounter(counter+1)}>{counter}</h1>
+      <div className="recipes">
+        {recipies.map(x => ( //Here we have map function which takes another function to apply over all the elemets in recepies array.
+          <Recipe 
+          title={x.recipe.label} 
+          calories={x.recipe.calories} 
+          image={x.recipe.image}
+          ingredients = {x.recipe.ingredients} 
+          key={x.recipe.label} /> // For the inner function we are just defining the return and not the body hence () instead of {} after recipe => ()
+        ))}
+        <h1 onClick={() => setCounter(counter+1)}>{counter}</h1>
+      </div>
     </div>
   )
 }
